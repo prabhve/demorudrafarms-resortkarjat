@@ -82,25 +82,25 @@ export const Navbar: React.FC<NavbarProps> = ({
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand Wordmark & Logo */}
         <a
           href="#overview"
           onClick={(e) => handleNavClick(e, '#overview')}
-          className="flex items-center gap-2.5 sm:gap-3 shrink-0 group cursor-pointer"
+          className="flex items-center gap-2 sm:gap-3 min-w-0 group cursor-pointer"
         >
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-amber-500/60 bg-amber-500/10 flex items-center justify-center text-amber-500 font-brand font-bold text-base sm:text-lg transition-transform group-hover:scale-105 shadow-sm">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-amber-500/60 bg-amber-500/10 flex items-center justify-center text-amber-500 font-brand font-bold text-sm sm:text-lg transition-transform group-hover:scale-105 shadow-sm shrink-0">
             R
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col min-w-0">
             <span
-              className={`font-brand text-sm sm:text-lg font-bold tracking-widest uppercase leading-none transition-colors ${
+              className={`font-brand text-xs sm:text-base lg:text-lg font-bold tracking-wider sm:tracking-widest uppercase leading-none truncate transition-colors ${
                 scrolled ? 'text-stone-900' : 'text-white'
               }`}
             >
               RUDRA FARMS
             </span>
-            <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-amber-500 font-semibold mt-0.5">
+            <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.22em] text-amber-500 font-semibold mt-0.5 truncate">
               & Resort · Karjat
             </span>
           </div>
@@ -133,7 +133,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right CTA Actions */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* AI Concierge Trigger */}
           <button
             type="button"
@@ -152,10 +152,12 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={onBookNowClick}
-            className="px-3.5 sm:px-5 py-2 sm:py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg text-stone-950 bg-amber-400 hover:bg-amber-300 active:scale-95 transition-all shadow-md shrink-0 cursor-pointer flex items-center gap-1.5"
+            className="px-2.5 sm:px-4 lg:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-bold uppercase tracking-wider rounded-lg text-stone-950 bg-amber-400 hover:bg-amber-300 active:scale-95 transition-all shadow-md shrink-0 cursor-pointer flex items-center gap-1 sm:gap-1.5"
           >
-            <Calendar className="w-3.5 h-3.5 sm:hidden" />
-            <span>Reserve Stay</span>
+            <Calendar className="w-3.5 h-3.5" />
+            <span>
+              Reserve<span className="hidden sm:inline"> Stay</span>
+            </span>
           </button>
 
           {/* Mobile Hamburger Menu Toggle */}
@@ -163,11 +165,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className={`xl:hidden p-2 rounded-lg transition-colors cursor-pointer active:scale-95 ${
-              scrolled ? 'text-stone-800 hover:bg-stone-100' : 'text-white hover:bg-white/10'
+            className={`xl:hidden p-1.5 sm:p-2 rounded-lg transition-colors cursor-pointer shrink-0 active:scale-95 ${
+              scrolled
+                ? 'text-stone-800 hover:bg-stone-200/70 bg-stone-100/80'
+                : 'text-white hover:bg-white/20 bg-white/10 backdrop-blur-sm'
             }`}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
           </button>
         </div>
       </div>
