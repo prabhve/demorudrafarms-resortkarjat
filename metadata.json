@@ -1,0 +1,6 @@
+{
+  "name": "Rudra Farms & Resort Karjat",
+  "description": "Official website for Rudra Farms and Resort in Vinegaon, Karjat. Luxury private villa, swimming pool, sprawling lawns, authentic Maharashtrian dining, and nature retreat.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
