@@ -1,8 +1,10 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import { Waves, Trees, UtensilsCrossed, Flame, Trophy, Gamepad2, Dog, Zap, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export const AmenitiesSection: React.FC = () => {
+
   const { amenitiesData } = useResortData();
   const getIcon = (name: string) => {
     switch (name) {
@@ -46,10 +48,14 @@ export const AmenitiesSection: React.FC = () => {
 
         {/* Bento-styled Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {amenitiesData.map((item) => {
+          {amenitiesData.map((item, index) => {
             return (
-              <div
+              <motion.div
                 key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{ duration: 0.45, delay: (index % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="group p-6 sm:p-7 rounded-2xl border border-stone-200 bg-white hover:border-amber-400 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1"
               >
                 <div>
@@ -92,7 +98,7 @@ export const AmenitiesSection: React.FC = () => {
                     Included in Stay
                   </span>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

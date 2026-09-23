@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { RESORT_META } from '../data/resortData';
+import { useResortData } from '../context/ResortDataContext';
 import { MessageCircle, ArrowRight, Compass, ShieldCheck } from 'lucide-react';
 
 interface ParallaxFeatureBannerProps {
@@ -10,7 +10,9 @@ interface ParallaxFeatureBannerProps {
 export const ParallaxFeatureBanner: React.FC<ParallaxFeatureBannerProps> = ({
   onCheckTariff
 }) => {
+  const { resortMeta } = useResortData();
   const containerRef = useRef<HTMLElement>(null);
+
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -78,12 +80,12 @@ export const ParallaxFeatureBanner: React.FC<ParallaxFeatureBannerProps> = ({
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4">
           {onCheckTariff && (
             <button
               type="button"
               onClick={onCheckTariff}
-              className="px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-stone-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-xl hover:scale-105 flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-stone-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Calculate Stay Tariff</span>
               <ArrowRight className="w-4 h-4" />
@@ -91,10 +93,10 @@ export const ParallaxFeatureBanner: React.FC<ParallaxFeatureBannerProps> = ({
           )}
 
           <a
-            href={`https://wa.me/${RESORT_META.whatsapp}?text=${encodeURIComponent('Hello Rudra Farms & Resort Karjat! I was inspired by your mountain estate and would love to check weekend villa availability.')}`}
+            href={`https://wa.me/${resortMeta.whatsapp}?text=${encodeURIComponent('Hello Rudra Farms & Resort Karjat! I was inspired by your mountain estate and would love to check weekend villa availability.')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-xl hover:scale-105 flex items-center gap-2 border border-emerald-400/40 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-emerald-400/40 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4" />
             <span>Chat Directly on WhatsApp</span>

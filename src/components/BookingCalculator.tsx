@@ -1,4 +1,5 @@
 import React, { useState, useId } from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import { Calendar, Users, Calculator, MessageCircle, Send, CheckCircle2, AlertCircle, ShieldCheck, Sparkles } from 'lucide-react';
 
@@ -173,7 +174,13 @@ Hello, could you please confirm availability for these dates?`;
         {/* Calculator Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left 7 Columns: Interactive Configuration Form */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl border border-stone-200 bg-white shadow-xl">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 p-6 sm:p-8 rounded-3xl border border-stone-200 bg-white shadow-xl"
+          >
             <h3 className="font-brand text-xl font-bold text-stone-900 mb-6 pb-3 border-b border-stone-200 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-600" />
               <span>1. Configure Your Stay Parameters</span>
@@ -358,10 +365,16 @@ Hello, could you please confirm availability for these dates?`;
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right 5 Columns: Itemized Breakdown & Direct Submission */}
-          <div className="lg:col-span-5 space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 space-y-6"
+          >
             <div className="p-6 sm:p-7 rounded-3xl border border-stone-200 bg-white shadow-xl">
               <div className="flex items-center justify-between pb-4 border-b border-stone-200">
                 <h3 className="font-brand text-xl font-bold text-stone-900">
@@ -547,7 +560,7 @@ Hello, could you please confirm availability for these dates?`;
                 </div>
               )}
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -90,12 +90,12 @@ export const StorySection: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-black/20 pointer-events-none" />
 
                 {/* Primary Card Caption */}
-                <div className="absolute bottom-4 left-5 right-5 text-white flex items-end justify-between">
+                <div className="absolute bottom-4 left-4 right-4 sm:left-5 sm:right-5 text-white flex items-end justify-between">
                   <div>
                     <div className="text-xs uppercase tracking-widest text-amber-300 font-bold">
                       The Sanctuary
                     </div>
-                    <div className="text-base font-brand font-bold text-white">
+                    <div className="text-sm sm:text-base font-brand font-bold text-white">
                       40-Ft Pool & Private Villa Grounds
                     </div>
                   </div>
@@ -108,7 +108,7 @@ export const StorySection: React.FC = () => {
               {/* Secondary Overlapping Parallax Card: Chulha Feasts & Bonfire */}
               <motion.div
                 style={{ y: secondaryCardY }}
-                className="absolute -bottom-8 -left-4 sm:-left-8 w-52 sm:w-64 rounded-2xl overflow-hidden border-2 border-white bg-stone-900 shadow-2xl will-change-transform z-20"
+                className="absolute -bottom-6 left-2 sm:-bottom-8 sm:-left-6 w-48 sm:w-64 rounded-2xl overflow-hidden border-2 border-white bg-stone-900 shadow-2xl will-change-transform z-20"
               >
                 <div className="aspect-[4/3] relative overflow-hidden">
                   <img
@@ -131,16 +131,16 @@ export const StorySection: React.FC = () => {
               {/* Floating Brass Stamp / Badge */}
               <motion.div
                 style={{ y: badgeY }}
-                className="absolute -top-5 -right-3 sm:-right-5 z-20 bg-amber-400 text-stone-950 p-3.5 rounded-2xl shadow-xl border border-amber-300 flex items-center gap-2.5 will-change-transform"
+                className="absolute top-2 right-2 sm:-top-5 sm:-right-5 z-20 bg-amber-400 text-stone-950 p-2.5 sm:p-3.5 rounded-2xl shadow-xl border border-amber-300 flex items-center gap-2 sm:gap-2.5 will-change-transform"
               >
-                <div className="p-2 rounded-xl bg-stone-950 text-amber-400">
-                  <Trees className="w-5 h-5" />
+                <div className="p-1.5 sm:p-2 rounded-xl bg-stone-950 text-amber-400">
+                  <Trees className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
                 <div>
-                  <div className="font-bold text-xs font-mono uppercase tracking-wider leading-none">
+                  <div className="font-bold text-[11px] sm:text-xs font-mono uppercase tracking-wider leading-none">
                     4+ ACRES
                   </div>
-                  <div className="text-[10px] text-stone-900 font-semibold mt-0.5">
+                  <div className="text-[9px] sm:text-[10px] text-stone-900 font-semibold mt-0.5">
                     Sahyadri Foothills
                   </div>
                 </div>

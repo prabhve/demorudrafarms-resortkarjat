@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import { MapPin, Navigation, Compass, ExternalLink, Car, Train, Clock, Sparkles, Route, Eye } from 'lucide-react';
 
@@ -48,13 +49,13 @@ export const AttractionsMap: React.FC = () => {
           </p>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 pt-3">
+          <div className="flex items-center gap-2 pt-3 overflow-x-auto no-scrollbar scroll-smooth">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
                   selectedCategory === cat.id
                     ? 'bg-stone-900 text-white shadow-md'
                     : 'bg-white text-stone-700 border border-stone-200 hover:bg-stone-100'
@@ -68,13 +69,17 @@ export const AttractionsMap: React.FC = () => {
 
         {/* Attractions Grid with Prominent Navigation CTAs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {filteredAttractions.map((item) => {
+          {filteredAttractions.map((item, itemIdx) => {
             const navUrl = getDirectionsUrl(item.mapDestinationQuery);
             const viewUrl = getPlaceViewUrl(item.mapDestinationQuery);
 
             return (
-              <div
+              <motion.div
                 key={item.id}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-30px' }}
+                transition={{ duration: 0.45, delay: (itemIdx % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                 className="group rounded-3xl border border-stone-200 bg-white shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between hover:-translate-y-1"
               >
                 <div>
@@ -155,13 +160,19 @@ export const AttractionsMap: React.FC = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Map & Driving Directions Dual Container */}
-        <div className="rounded-3xl border border-stone-200 bg-white shadow-xl overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-3xl border border-stone-200 bg-white shadow-xl overflow-hidden"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Left 5 Columns: Directions & Address Details */}
             <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
@@ -289,7 +300,7 @@ export const AttractionsMap: React.FC = () => {
               />
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

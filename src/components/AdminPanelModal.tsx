@@ -183,8 +183,8 @@ export const AdminPanelModal: React.FC = () => {
 
       {/* Main CMS Layout: Left Sidebar + Right Workspace */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar Navigation */}
-        <aside className="w-64 sm:w-72 bg-[#121613] border-r border-stone-800/90 flex flex-col justify-between shrink-0 overflow-y-auto">
+        {/* Left Sidebar Navigation (Desktop / Tablet) */}
+        <aside className="hidden md:flex w-64 lg:w-72 bg-[#121613] border-r border-stone-800/90 flex-col justify-between shrink-0 overflow-y-auto">
           <div className="p-4 space-y-1.5">
             <div className="text-[11px] font-bold text-stone-400 uppercase tracking-widest px-3 py-2">
               Website Controls
@@ -349,7 +349,36 @@ export const AdminPanelModal: React.FC = () => {
         </aside>
 
         {/* Right Workspace Main Content Area */}
-        <main className="flex-1 bg-[#141a16] overflow-y-auto p-6 sm:p-8 space-y-8">
+        <main className="flex-1 bg-[#141a16] overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
+          {/* Mobile Tab Navigator (Hidden on md+) */}
+          <div className="md:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-3 border-b border-stone-800 -mx-1 px-1">
+            {[
+              { id: 'overview', label: 'Resort Info', icon: <Building2 className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'rooms', label: `Rooms (${roomsData.length})`, icon: <BedDouble className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'amenities', label: `Amenities (${amenitiesData.length})`, icon: <Sparkles className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'dining', label: `Dining (${menuItems.length})`, icon: <UtensilsCrossed className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'media', label: `Media (${galleryItems.length})`, icon: <ImageIcon className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'attractions', label: `Attractions (${attractionsData.length})`, icon: <MapPin className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'pricing', label: 'Pricing', icon: <Calculator className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'reviews', label: `Reviews (${reviewsData.length})`, icon: <Star className="w-3.5 h-3.5 shrink-0" /> },
+              { id: 'hero', label: 'Hero Slides', icon: <Sliders className="w-3.5 h-3.5 shrink-0" /> }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id as AdminTab)}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap shrink-0 transition-all ${
+                  activeTab === tab.id
+                    ? 'bg-amber-400 text-stone-950 shadow-md font-extrabold'
+                    : 'bg-stone-800/80 text-stone-300 hover:text-white'
+                }`}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
           {/* Toast Notification */}
           {toastMessage && (
             <div className="fixed top-20 right-8 z-50 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-2xl animate-bounce">

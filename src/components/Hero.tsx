@@ -17,6 +17,7 @@ export const Hero: React.FC<HeroProps> = ({
   const { heroSlides, resortMeta } = useResortData();
   const heroRef = useRef<HTMLElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
   // Parallax scroll hooks
   const { scrollYProgress } = useScroll({
@@ -48,7 +49,24 @@ export const Hero: React.FC<HeroProps> = ({
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    if (diff > 50) {
+      nextSlide();
+    } else if (diff < -50) {
+      prevSlide();
+    }
+    touchStartX.current = null;
+  };
+
   const today = new Date();
+
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
   const dayAfter = new Date(today);
@@ -80,11 +98,17 @@ export const Hero: React.FC<HeroProps> = ({
   )}`;
 
   return (
-    <section ref={heroRef} id="overview" className="relative min-h-screen flex flex-col justify-between pt-28 pb-12 overflow-hidden bg-stone-950 text-white">
+    <section
+      ref={heroRef}
+      id="overview"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="relative min-h-screen flex flex-col justify-between pt-24 sm:pt-28 pb-10 sm:pb-12 overflow-hidden bg-stone-950 text-white"
+    >
       {/* Background Slides Carousel with Scroll Parallax */}
       <motion.div
         style={{ y: bgY, scale: bgScale }}
-        className="absolute inset-0 z-0 h-[125%] -top-[12%] will-change-transform pointer-events-none"
+        className="absolute inset-0 z-0 h-[125%] -top-[12%] will-change-transform pointer-events-none select-none"
       >
         {heroSlides.map((slide, idx) => (
           <div
@@ -112,7 +136,7 @@ export const Hero: React.FC<HeroProps> = ({
           type="button"
           onClick={prevSlide}
           aria-label="Previous slide"
-          className="p-3 rounded-full bg-stone-900/60 hover:bg-stone-900/90 text-white border border-white/20 transition-all pointer-events-auto hover:scale-110 cursor-pointer shadow-lg"
+          className="p-3 rounded-full bg-stone-900/60 hover:bg-stone-900/90 text-white border border-white/20 transition-all pointer-events-auto hover:scale-110 cursor-pointer shadow-lg active:scale-95"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -120,7 +144,7 @@ export const Hero: React.FC<HeroProps> = ({
           type="button"
           onClick={nextSlide}
           aria-label="Next slide"
-          className="p-3 rounded-full bg-stone-900/60 hover:bg-stone-900/90 text-white border border-white/20 transition-all pointer-events-auto hover:scale-110 cursor-pointer shadow-lg"
+          className="p-3 rounded-full bg-stone-900/60 hover:bg-stone-900/90 text-white border border-white/20 transition-all pointer-events-auto hover:scale-110 cursor-pointer shadow-lg active:scale-95"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -131,34 +155,34 @@ export const Hero: React.FC<HeroProps> = ({
         style={{ y: textY, opacity: textOpacity }}
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1 flex flex-col justify-center my-auto"
       >
-        <div className="max-w-3xl space-y-6 pt-6">
+        <div className="max-w-3xl space-y-5 sm:space-y-6 pt-4 sm:pt-6">
           {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md">
-            <MapPin className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-widest bg-amber-400/20 text-amber-300 border border-amber-400/40 backdrop-blur-md">
+            <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0" />
             <span>Vinegaon, Karjat Chowk · Maharashtra</span>
           </div>
 
           {/* Luxury Heading with Distinct Fonts */}
-          <div className="space-y-2">
-            <h1 className="font-brand text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-md">
+          <div className="space-y-1.5 sm:space-y-2">
+            <h1 className="font-brand text-3xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white leading-[1.1] drop-shadow-md">
               RUDRA FARMS
             </h1>
-            <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-amber-300 font-normal">
+            <p className="font-serif italic text-xl sm:text-3xl lg:text-4xl text-amber-300 font-normal">
               & Resort Karjat
             </p>
           </div>
 
           {/* Subtitle / Caption */}
-          <p className="text-base sm:text-lg text-stone-200 leading-relaxed max-w-2xl font-light drop-shadow">
+          <p className="text-sm sm:text-lg text-stone-200 leading-relaxed max-w-2xl font-light drop-shadow">
             Experience our private 4-acre sanctuary with swimming pool, luxury villa suites, manicured lawns, and authentic Maharashtrian chulha feasts amidst scenic Sahyadri hills.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
             <button
               type="button"
               onClick={onExploreClick}
-              className="px-6 py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider text-stone-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-xl hover:scale-105 flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-stone-950 bg-amber-400 hover:bg-amber-300 transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Explore Accommodations</span>
               <ArrowRight className="w-4 h-4" />
@@ -168,7 +192,7 @@ export const Hero: React.FC<HeroProps> = ({
               href={whatsappQuickUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-xl hover:scale-105 flex items-center gap-2 border border-emerald-400/40"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-emerald-600 hover:bg-emerald-500 transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center justify-center gap-2 border border-emerald-400/40"
             >
               <MessageCircle className="w-4 h-4" />
               <span>WhatsApp Inquire</span>
@@ -177,7 +201,7 @@ export const Hero: React.FC<HeroProps> = ({
             <button
               type="button"
               onClick={onOpenChat}
-              className="px-5 py-3.5 rounded-lg text-xs font-bold uppercase tracking-wider text-stone-200 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider text-stone-200 bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-amber-400" />
               <span>Ask AI Concierge</span>
@@ -185,17 +209,17 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Current Slide Caption Indicator */}
-          <div className="pt-4 flex items-center gap-4 text-xs text-stone-300">
-            <div className="font-mono text-amber-400 font-bold">
+          <div className="pt-2 sm:pt-4 flex items-center gap-3 sm:gap-4 text-xs text-stone-300">
+            <div className="font-mono text-amber-400 font-bold shrink-0">
               0{currentSlide + 1} / 0{heroSlides.length}
             </div>
-            <div className="h-3 w-px bg-white/30" />
-            <div className="italic font-medium text-stone-200">
+            <div className="h-3 w-px bg-white/30 shrink-0" />
+            <div className="italic font-medium text-stone-200 truncate text-[11px] sm:text-xs">
               {activeSlideData.subtitle}
             </div>
 
             {/* Slide Dots Indicator */}
-            <div className="ml-auto flex items-center gap-1.5">
+            <div className="ml-auto flex items-center gap-1.5 shrink-0">
               {heroSlides.map((_, i) => (
                 <button
                   key={i}
@@ -203,7 +227,7 @@ export const Hero: React.FC<HeroProps> = ({
                   onClick={() => setCurrentSlide(i)}
                   aria-label={`Slide ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    i === currentSlide ? 'w-8 bg-amber-400' : 'w-2 bg-white/40 hover:bg-white/70'
+                    i === currentSlide ? 'w-6 sm:w-8 bg-amber-400' : 'w-2 bg-white/40 hover:bg-white/70'
                   }`}
                 />
               ))}

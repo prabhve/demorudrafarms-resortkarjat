@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import {
   Star,
@@ -170,13 +171,13 @@ export const ReviewsSection: React.FC = () => {
         {/* Systematic Management Controls Bar */}
         <div className="p-4 sm:p-5 rounded-2xl border border-stone-200 bg-white shadow-md mb-8 space-y-4">
           {/* Scrollable Category Filter Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth">
             {filterCategories.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer shrink-0 active:scale-95 ${
                   selectedCategory === cat.id
                     ? 'bg-stone-900 text-white shadow'
                     : 'bg-stone-100 text-stone-700 hover:bg-stone-200/80'
@@ -257,8 +258,12 @@ export const ReviewsSection: React.FC = () => {
               const gradient = avatarGradients[idx % avatarGradients.length];
 
               return (
-                <div
+                <motion.div
                   key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.45, delay: (idx % 2) * 0.1, ease: [0.16, 1, 0.3, 1] }}
                   className="group p-6 sm:p-7 rounded-3xl border border-stone-200 bg-white shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-4 hover:-translate-y-1"
                 >
                   <div className="space-y-3.5">
@@ -337,7 +342,7 @@ export const ReviewsSection: React.FC = () => {
                       {item.stayType}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

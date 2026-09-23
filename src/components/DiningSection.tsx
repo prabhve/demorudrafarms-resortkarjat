@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import { ParallaxImage } from './ParallaxImage';
 import {
@@ -167,15 +168,15 @@ export const DiningSection: React.FC = () => {
           </div>
 
           {/* Category Tabs & Filter Controls */}
-          <div className="p-6 sm:p-8 border-b border-stone-100 bg-[#fdfcfa] space-y-4">
+          <div className="p-5 sm:p-8 border-b border-stone-100 bg-[#fdfcfa] space-y-4">
             {/* Scrollable Category Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   type="button"
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer shrink-0 active:scale-95 ${
                     activeCategory === cat.id
                       ? 'bg-amber-500 text-stone-950 shadow-md scale-102'
                       : 'bg-white text-stone-700 hover:bg-stone-100 border border-stone-200'
@@ -277,12 +278,16 @@ export const DiningSection: React.FC = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredMenuItems.map((item) => {
+                {filteredMenuItems.map((item, dishIdx) => {
                   const isSpecial = item.isChefSpecial;
 
                   return (
-                    <div
+                    <motion.div
                       key={item.id}
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-30px' }}
+                      transition={{ duration: 0.4, delay: (dishIdx % 3) * 0.08, ease: [0.16, 1, 0.3, 1] }}
                       className={`relative rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between ${
                         isSpecial
                           ? 'border-2 border-amber-400 bg-gradient-to-br from-amber-50/90 via-orange-50/40 to-white shadow-lg hover:shadow-2xl hover:-translate-y-1 ring-2 ring-amber-400/20'
@@ -370,7 +375,7 @@ export const DiningSection: React.FC = () => {
                           <span>Order Dish</span>
                         </a>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>

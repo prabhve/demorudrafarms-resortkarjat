@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { useResortData } from '../context/ResortDataContext';
 import { ParallaxImage } from './ParallaxImage';
 import { Camera, X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
@@ -48,13 +49,13 @@ export const GallerySection: React.FC = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-10">
+        <div className="flex items-center gap-2 mb-10 overflow-x-auto no-scrollbar scroll-smooth pb-1">
           {(['all', 'pool', 'stays', 'dining', 'outdoors'] as const).map((cat) => (
             <button
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+              className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
                 filter === cat
                   ? 'bg-stone-900 text-white shadow-md'
                   : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
@@ -76,10 +77,14 @@ export const GallerySection: React.FC = () => {
         {/* Photo Grid with subtle Parallax */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredItems.map((item, idx) => (
-            <div
+            <motion.div
               key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-25px' }}
+              transition={{ duration: 0.45, delay: (idx % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => openLightbox(idx)}
-              className="group relative rounded-2xl overflow-hidden cursor-pointer border border-stone-200 bg-stone-100 shadow-md hover:shadow-xl transition-all"
+              className="group relative rounded-2xl overflow-hidden cursor-pointer border border-stone-200 bg-stone-100 shadow-md hover:shadow-xl transition-all hover:-translate-y-1"
             >
               <ParallaxImage
                 src={item.image}
@@ -100,7 +105,7 @@ export const GallerySection: React.FC = () => {
                   </div>
                 </div>
               </ParallaxImage>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

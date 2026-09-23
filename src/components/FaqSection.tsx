@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { FAQS_DATA } from '../data/resortData';
 import { ChevronDown, HelpCircle, Sparkles } from 'lucide-react';
 
@@ -51,36 +52,52 @@ export const FaqSection: React.FC = () => {
 
         {/* Accordion */}
         <div className="space-y-3.5">
-          {FAQS_DATA.map((faq) => {
+          {FAQS_DATA.map((faq, idx) => {
             const isOpen = openId === faq.id;
             const item = faqAnswers[faq.id] || { q: faq.questionKey, a: faq.answerKey };
 
             return (
-              <div
+              <motion.div
                 key={faq.id}
-                className="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden transition-all duration-200"
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-20px' }}
+                transition={{ duration: 0.35, delay: idx * 0.06 }}
+                className="rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden transition-all duration-200 hover:border-amber-300"
               >
                 <button
                   type="button"
                   onClick={() => toggle(faq.id)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-stone-50/50 transition-colors"
+                  aria-expanded={isOpen}
+                  className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 cursor-pointer hover:bg-stone-50/50 transition-colors"
                 >
                   <span className="font-brand text-base sm:text-lg font-bold text-stone-900 leading-snug">
                     {item.q}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-stone-500 shrink-0 transition-transform duration-200 ${
+                    className={`w-5 h-5 text-stone-500 shrink-0 transition-transform duration-300 ${
                       isOpen ? 'rotate-180 text-amber-600' : ''
                     }`}
                   />
                 </button>
 
-                {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-stone-700 leading-relaxed border-t border-stone-100">
-                    <p>{item.a}</p>
-                  </div>
-                )}
-              </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-4 sm:px-5 pb-5 pt-1 text-xs sm:text-sm text-stone-700 leading-relaxed border-t border-stone-100">
+                        <p>{item.a}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             );
           })}
         </div>
@@ -88,3 +105,4 @@ export const FaqSection: React.FC = () => {
     </section>
   );
 };
+

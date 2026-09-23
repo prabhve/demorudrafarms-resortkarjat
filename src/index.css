@@ -9,10 +9,17 @@
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     font-family: var(--font-sans);
     background-color: #faf8f5;
     color: #1c1917;
+    overflow-x: hidden;
   }
 
   .font-brand {
@@ -40,3 +47,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(120, 113, 108, 0.45);
 }
+
+/* Utility to hide scrollbars on horizontal swipe strips */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+

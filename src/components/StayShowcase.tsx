@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { RoomOption } from '../types';
 import { useResortData } from '../context/ResortDataContext';
 import { ParallaxImage } from './ParallaxImage';
@@ -7,6 +8,7 @@ import { Users, BedDouble, Bath, Check, ArrowRight, MessageCircle, X, ChevronLef
 interface StayShowcaseProps {
   onSelectForQuote: (roomId: string) => void;
 }
+
 
 export const StayShowcase: React.FC<StayShowcaseProps> = ({
   onSelectForQuote
@@ -42,12 +44,12 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
           </p>
         </div>
 
-        {/* Interactive Segmented Filter Controls */}
-        <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border mb-10 w-fit max-w-full overflow-x-auto bg-stone-100 border-stone-200">
+        {/* Interactive Segmented Filter Controls with Mobile Touch Swiping */}
+        <div className="flex items-center gap-1.5 sm:gap-2 p-1.5 rounded-xl border mb-8 sm:mb-10 max-w-full overflow-x-auto no-scrollbar scroll-smooth bg-stone-100 border-stone-200">
           <button
             type="button"
             onClick={() => setFilter('all')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
               filter === 'all'
                 ? 'bg-stone-900 text-white shadow-sm'
                 : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/70'
@@ -58,7 +60,7 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
           <button
             type="button"
             onClick={() => setFilter('villa')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
               filter === 'villa'
                 ? 'bg-stone-900 text-white shadow-sm'
                 : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/70'
@@ -69,7 +71,7 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
           <button
             type="button"
             onClick={() => setFilter('cottage')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
               filter === 'cottage'
                 ? 'bg-stone-900 text-white shadow-sm'
                 : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/70'
@@ -80,7 +82,7 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
           <button
             type="button"
             onClick={() => setFilter('suite')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
               filter === 'suite'
                 ? 'bg-stone-900 text-white shadow-sm'
                 : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/70'
@@ -91,7 +93,7 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
           <button
             type="button"
             onClick={() => setFilter('dorm')}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0 active:scale-95 ${
               filter === 'dorm'
                 ? 'bg-stone-900 text-white shadow-sm'
                 : 'text-stone-700 hover:text-stone-950 hover:bg-stone-200/70'
@@ -102,8 +104,8 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
         </div>
 
         {/* Accommodation Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {filteredRooms.map((room) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+          {filteredRooms.map((room, roomIdx) => {
             const title = room.category === 'villa'
               ? '4BHK Royal Pool Villa (Exclusive Buyout)'
               : room.category === 'cottage'
@@ -129,8 +131,12 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
               : 'Spacious dormitory equipped with individual luxury bunk beds, multiple attached bathrooms, air-conditioning, and ample space for celebrations and corporate teams.';
 
             return (
-              <div
+              <motion.div
                 key={room.id}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.5, delay: roomIdx * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-2xl border border-stone-200 bg-white shadow-lg hover:shadow-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Media Container with Parallax Effect */}
@@ -161,16 +167,16 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
                 </ParallaxImage>
 
                 {/* Content Area */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-5">
+                <div className="p-5 sm:p-7 flex-1 flex flex-col justify-between space-y-4 sm:space-y-5">
                   <div className="space-y-3">
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="font-brand text-2xl font-bold text-stone-900 leading-tight">
+                    <div className="flex items-start justify-between gap-3 sm:gap-4">
+                      <h3 className="font-brand text-xl sm:text-2xl font-bold text-stone-900 leading-tight">
                         {title}
                       </h3>
                       {/* Price per night */}
                       <div className="text-right shrink-0">
-                        <div className="text-xs text-stone-500 font-semibold">Starting from</div>
-                        <div className="text-xl font-bold text-stone-950 font-mono tabular-nums">
+                        <div className="text-[11px] sm:text-xs text-stone-500 font-semibold">Starting from</div>
+                        <div className="text-lg sm:text-xl font-bold text-stone-950 font-mono tabular-nums">
                           ₹{room.basePriceWeekday.toLocaleString('en-IN')}
                           <span className="text-xs font-normal text-stone-600 font-sans ml-1">
                             / night
@@ -184,25 +190,25 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
                     </p>
 
                     {/* Metadata Specs */}
-                    <div className="flex items-center gap-4 text-xs font-semibold text-stone-700 pt-2 border-t border-stone-100">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-semibold text-stone-700 pt-2 border-t border-stone-100">
                       <div className="flex items-center gap-1.5">
-                        <Users className="w-3.5 h-3.5 text-amber-600" />
+                        <Users className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                         <span>{room.capacity.min}–{room.capacity.max} Guests</span>
                       </div>
-                      <span aria-hidden="true" className="text-stone-300">·</span>
+                      <span aria-hidden="true" className="text-stone-300 hidden sm:inline">·</span>
                       <div className="flex items-center gap-1.5">
-                        <BedDouble className="w-3.5 h-3.5 text-amber-600" />
+                        <BedDouble className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                         <span>{room.capacity.bedrooms} Bed</span>
                       </div>
-                      <span aria-hidden="true" className="text-stone-300">·</span>
+                      <span aria-hidden="true" className="text-stone-300 hidden sm:inline">·</span>
                       <div className="flex items-center gap-1.5">
-                        <Bath className="w-3.5 h-3.5 text-amber-600" />
+                        <Bath className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                         <span>{room.capacity.bathrooms} Baths</span>
                       </div>
                     </div>
 
                     {/* Key features bullets */}
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 text-xs text-stone-800 font-medium">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 pt-2 text-xs text-stone-800 font-medium">
                       {room.keyFeatures.slice(0, 4).map((feat, idx) => (
                         <li key={idx} className="flex items-center gap-2">
                           <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
@@ -213,24 +219,24 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
                   </div>
 
                   {/* Actions */}
-                  <div className="pt-4 border-t border-stone-100 flex flex-wrap items-center justify-between gap-3">
+                  <div className="pt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     <button
                       type="button"
                       onClick={() => {
                         setActiveModalRoom(room);
                         setModalImageIndex(0);
                       }}
-                      className="text-xs font-bold text-stone-800 hover:text-amber-600 transition-colors flex items-center gap-1 py-1 cursor-pointer"
+                      className="text-xs font-bold text-stone-800 hover:text-amber-600 transition-colors flex items-center gap-1 py-1 cursor-pointer order-2 sm:order-1"
                     >
                       <span>View Gallery & Details</span>
                       <ArrowRight className="w-3 h-3" />
                     </button>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 order-1 sm:order-2 w-full sm:w-auto">
                       <button
                         type="button"
                         onClick={() => onSelectForQuote(room.id)}
-                        className="px-3.5 py-2 text-xs font-bold tracking-wider uppercase rounded-lg text-stone-900 border border-stone-300 hover:bg-stone-100 transition-colors cursor-pointer"
+                        className="flex-1 sm:flex-none px-3.5 py-2.5 text-xs font-bold tracking-wider uppercase rounded-lg text-stone-900 border border-stone-300 hover:bg-stone-100 active:scale-95 transition-all cursor-pointer text-center"
                       >
                         Check Rates
                       </button>
@@ -239,15 +245,15 @@ export const StayShowcase: React.FC<StayShowcaseProps> = ({
                         href={getWhatsAppUrlForRoom(room)}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-2 text-xs font-bold tracking-wider uppercase rounded-lg text-white bg-emerald-700 hover:bg-emerald-600 transition-colors flex items-center gap-1.5 shadow-sm"
+                        className="flex-1 sm:flex-none px-4 py-2.5 text-xs font-bold tracking-wider uppercase rounded-lg text-white bg-emerald-700 hover:bg-emerald-600 active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-sm text-center"
                       >
-                        <MessageCircle className="w-3.5 h-3.5" />
-                        <span>WhatsApp Host</span>
+                        <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>WhatsApp</span>
                       </a>
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
